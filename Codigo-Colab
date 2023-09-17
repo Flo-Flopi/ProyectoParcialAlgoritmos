@@ -4,7 +4,7 @@
 using namespace System;
 using namespace std;
 
-
+int repartirCartasJugadores(int jugador1, int jugador2);
 int leerNumPartidas();
 int addValorCarta();
 int sumaCartasJugadores();
