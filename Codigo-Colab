@@ -9,9 +9,23 @@ int leerNumPartidas();
 int addValorCarta();
 int sumaCartasJugadores();
 
-
-
-
 int main(){
 
+}
+
+int addValorCarta(int carta) {
+    if (carta == 11 || carta == 12 || carta == 13) {
+        return 10;
+    }
+    else if (carta == 1) {
+        int valor;
+        do {
+            cout << "¿Quieres que el AS valga 1 u 11? ";
+            cin >> valor;
+        } while (valor != 1 && valor != 11);
+        return valor;
+    }
+    else {
+        return carta;
+    }
 }
