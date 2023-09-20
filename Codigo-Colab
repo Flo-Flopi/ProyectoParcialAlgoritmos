@@ -7,11 +7,12 @@
 using namespace System;
 using namespace std;
 
-int obtenerOpcionMenu();
-int generarCartaAleatoria(int minValor, int maxValor);
-void imprimirInstrucciones();
-void imprimirCarta(int x, int y, int carta, int palo);
-int determinarGanador();
+int obtenerOpcionMenu();//
+int generarCartaAleatoria(int minValor, int maxValor);//
+void imprimirInstrucciones();//
+void imprimirCarta(int x, int y, int carta, int palo);//
+int addCondicionCartas();
+int determinarGanador(int sumaCartasJugadorUno, int sumaCartasJugadorDos);
 void simularJuego();
 
 
@@ -42,7 +43,7 @@ int main()
 
     } while (opcion != 3);
 
-	return 0;
+    return 0;
 }
 
 int obtenerOpcionMenu() {
@@ -69,7 +70,17 @@ int generarCartaAleatoria(int minValorCarta, int maxValorCarta) {
     return minValorCarta + rand() % (maxValorCarta + 1 - minValorCarta);
 }
 
-
+void imprimirInstrucciones() {
+    cout << "Instrucciones" << endl;
+    cout << "El objetivo del juego es sacar cartas hasta que su suma sea 21" << endl;
+    cout << "El juego empieza repartiendo a cada jugador una carta" << endl;
+    cout << "Si el jugador desea otra carta, la puede pedir y se sumaran los valores de las cartas" << endl;
+    cout << "Si el valor acumulado sobrepasa ventiuno, automáticamente es turno del jugador 2" << endl;
+    cout << "Las cartas 11, 12, 13 tienen el mismo valor: 10, el resto su valor original" << endl;
+    cout << "excepo del AS que vale 1 y 11 siendo el jugador que decide cual valor le conviene" << endl;
+    cout << "El ganador se da cuando un jugador tiene mas veces el 21 o un numero aproximado" << endl;
+    _getch();
+}
 
 void imprimirCarta(int x, int y, int carta, int palo)
 {
@@ -256,3 +267,82 @@ void imprimirCarta(int x, int y, int carta, int palo)
         Console::SetCursorPosition(x, y + 10); cout << (char)192; for (int i = 1; i <= 11; i++) cout << (char)196; cout << "K";
     }
 }
+
+
+int determinarGanador(int sumaCartasJugadorUno, int sumaCartasJugadorDos) {
+
+    int ganador;
+
+    if (sumaCartasJugadorUno > sumaCartasJugadorDos) {
+        ganador = 1;
+    }
+    else if (sumaCartasJugadorUno < sumaCartasJugadorDos) {
+        ganador = 2; 
+    }
+    else {
+        ganador = -1; 
+    }
+    return ganador;
+}
+
+void simularJuego() {
+
+}
+
+int addCondicionCartas(int carta) {
+    
+    if (carta >= 2 && carta <= 10) {
+        return carta;
+    }
+    else if (carta >= 11 && carta <= 13)
+    {
+
+    }
+}
+
+/*
+#include <iostream>
+
+// Función para calcular el valor de una carta teniendo en cuenta las reglas
+int valorCarta(int carta) {
+    if (carta >= 2 && carta <= 10) {
+        return carta; // Cartas del 2 al 10 valen su número original
+    }
+    else if (carta >= 11 && carta <= 13) {
+        return 10; // Cartas 11, 12 y 13 valen 10 puntos
+    }
+    else if (carta == 1) {
+        int valor;
+        std::cout << "¿Quieres que el AS valga 1 o 11? ";
+        std::cin >> valor;
+        if (valor == 1 || valor == 11) {
+            return valor; // El jugador elige entre 1 o 11 para el AS
+        }
+        else {
+            std::cout << "Valor no válido para el AS. Se usará el valor por defecto de 1." << std::endl;
+            return 1; // Valor por defecto del AS es 1
+        }
+    }
+    else {
+        std::cout << "Número de carta no válido." << std::endl;
+        return 0; // Valor no válido
+    }
+}
+
+int main() {
+    int carta = 0;
+    std::cout << "Ingresa el número de la carta: ";
+    std::cin >> carta;
+
+    int valor = valorCarta(carta);
+
+    if (valor != 0) {
+        std::cout << "El valor de la carta es: " << valor << " puntos." << std::endl;
+    }
+    else {
+        std::cout << "Carta no válida." << std::endl;
+    }
+
+    return 0;
+}
+*/
