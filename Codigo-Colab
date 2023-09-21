@@ -12,7 +12,6 @@ int leerNumeroPartidas();
 int generarCartaAleatoria(int minValor, int maxValor);//
 void imprimirInstrucciones();//
 void imprimirCarta(int x, int y, int carta, int palo);//
-int addCondicionCartas();
 int determinarGanador(int sumaCartasJugadorUno, int sumaCartasJugadorDos);
 void simularJuego();
 
@@ -293,7 +292,7 @@ int leerNumeroPartidas() {
     {
         if (numeroPartidas <= 5 || numeroPartidas >= 10)
         {
-            cout << "Ingrese el numero de partidas ha jugaar, entre 5 y 10" << endl;
+            cout << "Ingrese el numero de partidas ha jugar, entre 5 y 10" << endl;
             cin >> numeroPartidas;
         }
         else
@@ -308,85 +307,106 @@ int leerNumeroPartidas() {
 
 void simularJuego() {
 
-    int cartaUnoJugUno, cartaDosJugUno, cartaTresJugUno;
-    int cartaUnoJugDos, cartaDosJugDos, cartaTresJugDos;
+    int cartaJugUno;
+    int cartaJugDos;
     int sumaCartasJugadorUno, sumaCartasJugadorDos;
     int cartas;
     int paloAleatorio;
     int resultadoGanador;
     int ganadorEmpate;
-    int puntajeJugadorUno = 0;
-    int puntajeJugadorDos = 0;
-    int partidasJugadas = 0;
+    int puntajeJugadorUno = 0;//
+    int puntajeJugadorDos = 0;//
+    int partidasJugadas = 0;//
+    bool turnoJugadorUno, turnoJugadorDos;
+    int eligirJugador;
+    char repartirCarta;
+    char turno;
+    int numeroPartidas = leerNumeroPartidas();
 
-    while (true) {
+    while (partidasJugadas < numeroPartidas) {
 
-        do {
+        cout << "Desea elegir su turno? (S, o cualquier letra)" << endl;
+        cin >> turno;
 
-            if (cartas >= 2 && cartas <= 10) {
-                cartaUnoJugUno = generarCartaAleatoria(2, 10);
-                cartaDosJugUno = generarCartaAleatoria(2, 10);
-                cartaTresJugUno = generarCartaAleatoria(2, 10);
-                sumaCartasJugadorUno = cartaUnoJugUno + cartaDosJugUno + cartaTresJugUno;
+        if (turno == 's')
+        {
+            cout << "Elige que jugador empieza la partida (1, 2)" << endl;
+            cin >> eligirJugador;
 
-            }
-            else if (cartas >= 11 && cartas <= 13)
+            if (eligirJugador == 1)
             {
-                cartaUnoJugUno = generarCartaAleatoria(10, 10);
-                cartaDosJugUno = generarCartaAleatoria(10, 10);
-                cartaTresJugUno = generarCartaAleatoria(10, 10);
-                sumaCartasJugadorDos = cartaUnoJugDos + cartaDosJugDos + cartaTresJugDos;
-
+                turnoJugadorUno = true;
             }
-            else if (cartas == 1) {
+            else
+            {
+                turnoJugadorUno = false;
+            }
+        }
+        else
+        {
+            turnoJugadorUno = rand() % (1 - 0 + 1) + 0;
+        }
+        
+        do
+        {
+            cartaJugUno = generarCartaAleatoria(1, 13); 
 
+            paloAleatorio = generarCartaAleatoria(3, 6);
+
+            imprimirCarta(10, 10, cartaJugUno, paloAleatorio);//mejorar
+            
+            if (cartas == 1) {
                 int valor;
                 cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
                 cin >> valor;
 
-                if (valor == 1) {
-                    cartaUnoJugUno = 1;
-                    cartaDosJugUno = 1;
-                    cartaTresJugUno = 1;
-                }
-                else if (valor == 11)
+                if (turnoJugadorUno == true)
                 {
-                    cartaUnoJugUno = 11;
-                    cartaDosJugUno = 11;
-                    cartaTresJugUno = 11;
+                    sumaCartasJugadorUno += valor;
                 }
                 else
                 {
-                    cout << "Valor no valido para el AS, se usara el valor por defecto del AS (1)" << endl;
-                    cartaUnoJugUno = 1;
-                    cartaDosJugUno = 1;
-                    cartaTresJugUno = 1;
-
+                    sumaCartasJugadorDos += valor;
                 }
-
+            }
+            
+            else if (cartaJugUno >= 2 && cartaJugUno <= 10)
+            {
+                if (turnoJugadorUno == true)
+                {
+                    sumaCartasJugadorUno += cartaJugUno;
+                }
+                else
+                {
+                    sumaCartasJugadorDos += cartaJugUno;
+                }
             }
 
-        } while (cartas < 1 || cartas > 13);
+            else if (cartaJugUno >= 11 && cartaJugUno <= 13)
+            {
+                if (turnoJugadorUno == true)
+                {
+                    sumaCartasJugadorUno += 10;
+                }
+                else
+                {
+                    sumaCartasJugadorDos += 10;
+                }
+            }
 
-        paloAleatorio = generarCartaAleatoria(3, 6);
+            cout << "Desea que se le reparta otra carta?, si la respuesta es si ponga 'S' si es no, ponga 'N'" << endl;
+            cin >> repartirCarta;
+            repartirCarta = toupper(repartirCarta);
+            
+            cout << endl;
+            system("pause");
+            system("cls");
 
-        //
-        imprimirCarta(10, 10, cartaUnoJugUno, paloAleatorio);
-        imprimirCarta(30, 10, cartaUnoJugUno, paloAleatorio);
-        imprimirCarta(50, 10, cartaUnoJugUno, paloAleatorio);
-
-        imprimirCarta(10, 24, cartaUnoJugDos, paloAleatorio);
-        imprimirCarta(30, 24, cartaUnoJugDos, paloAleatorio);
-        imprimirCarta(50, 24, cartaUnoJugDos, paloAleatorio);
-
-        cout << endl;
-        //
+        } while (repartirCarta != 'N');
 
         //
         resultadoGanador = determinarGanador(sumaCartasJugadorUno, sumaCartasJugadorDos);
-        //
-
-        //
+       
         cout << "Nro de partida:" << partidasJugadas + 1 << endl;
 
         if (sumaCartasJugadorUno == 21 || sumaCartasJugadorUno > sumaCartasJugadorDos)
@@ -409,8 +429,8 @@ void simularJuego() {
             }
 
         }
-        cout << "Suma de cartas de jugador dos:" << sumaCartasJugadorDos << endl;
         //
+        
 
         //
         if (resultadoGanador == 1) {
