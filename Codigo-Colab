@@ -290,7 +290,7 @@ int leerNumeroPartidas() {
     int numeroPartidas;
     do
     {
-        if (numeroPartidas <= 5 || numeroPartidas >= 10)
+        if (numeroPartidas < 4 || numeroPartidas >= 10)
         {
             cout << "Ingrese el numero de partidas ha jugar, entre 5 y 10" << endl;
             cin >> numeroPartidas;
@@ -300,38 +300,37 @@ int leerNumeroPartidas() {
             cout << "Ingrese un numero de partidas de acuerdo el rango asignado" << endl;
         }
 
-    } while (numeroPartidas <= 5 || numeroPartidas >= 10);
+    } while (numeroPartidas < 4 || numeroPartidas >= 10);
 
     return numeroPartidas;
 }
 
 void simularJuego() {
 
-    int cartaJugUno;
-    int cartaJugDos;
-    int sumaCartasJugadorUno, sumaCartasJugadorDos;
-    int cartas;
-    int paloAleatorio;
-    int resultadoGanador;
-    int ganadorEmpate;
+    int cartasJugadores;//
+    int sumaCartasJugadorUno, sumaCartasJugadorDos;//
+    int paloAleatorio;//
+    int resultadoGanador;//
+    int ganadorEmpate;//
     int puntajeJugadorUno = 0;//
     int puntajeJugadorDos = 0;//
     int partidasJugadas = 0;//
-    bool turnoJugadorUno, turnoJugadorDos;
-    int eligirJugador;
-    char repartirCarta;
-    char turno;
-    int numeroPartidas = leerNumeroPartidas();
+    bool turnoJugadorUno, turnoJugadorDos;//
+    int eligirJugador;//
+    char repartirCarta;//
+    char turno;//
+    int numeroPartidas = leerNumeroPartidas();//
 
     while (partidasJugadas < numeroPartidas) {
 
-        cout << "Desea elegir su turno? (S, o cualquier letra)" << endl;
+        cout << "Desea elegir quien empieza el turno, si la respuesta es si escribe 'S', en su defecto 'N' si quieres que la computadora elija el turno)" << endl;
         cin >> turno;
 
-        if (turno == 's')
+        if (turno == 'S')
         {
             cout << "Elige que jugador empieza la partida (1, 2)" << endl;
             cin >> eligirJugador;
+            eligirJugador = toupper(eligirJugador); 
 
             if (eligirJugador == 1)
             {
@@ -349,13 +348,15 @@ void simularJuego() {
         
         do
         {
-            cartaJugUno = generarCartaAleatoria(1, 13); 
+            cartasJugadores = generarCartaAleatoria(1, 13);
 
             paloAleatorio = generarCartaAleatoria(3, 6);
 
-            imprimirCarta(10, 10, cartaJugUno, paloAleatorio);//mejorar
-            
-            if (cartas == 1) {
+            cout << endl;
+            imprimirCarta(10, 10, cartasJugadores, paloAleatorio);//mejorar
+            cout << endl;
+
+            if (cartasJugadores == 1) {
                 int valor;
                 cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
                 cin >> valor;
@@ -370,19 +371,19 @@ void simularJuego() {
                 }
             }
             
-            else if (cartaJugUno >= 2 && cartaJugUno <= 10)
+            else if (cartasJugadores >= 2 && cartasJugadores <= 10)
             {
                 if (turnoJugadorUno == true)
                 {
-                    sumaCartasJugadorUno += cartaJugUno;
+                    sumaCartasJugadorUno += cartasJugadores;
                 }
                 else
                 {
-                    sumaCartasJugadorDos += cartaJugUno;
+                    sumaCartasJugadorDos += cartasJugadores;
                 }
             }
 
-            else if (cartaJugUno >= 11 && cartaJugUno <= 13)
+            else if (cartasJugadores >= 11 && cartasJugadores <= 13)
             {
                 if (turnoJugadorUno == true)
                 {
