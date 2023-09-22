@@ -1,0 +1,588 @@
+#include "pch.h"
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <conio.h>
+
+//
+//Poniendole color a las cartitas
+#include <windows.h>
+#include<stdlib.h>
+#define color SetConsoleTextAttribute
+
+using namespace System;
+using namespace std;
+
+int obtenerOpcionMenu();//(
+int leerNumeroPartidas();
+int generarCartaAleatoria(int minValor, int maxValor);//
+void imprimirInstrucciones();//
+void imprimirCarta(int x, int y, int carta, int palo);//
+int determinarGanador(int sumaCartasJugadorUno, int sumaCartasJugadorDos);
+void simularJuego();
+
+
+int main()
+{
+    srand(time(NULL));
+    int opcion;
+
+    do
+    {
+        opcion = obtenerOpcionMenu();
+
+
+        switch (opcion)
+        {
+        case 1:
+            imprimirInstrucciones();
+            break;
+        case 2:
+            simularJuego();
+            break;
+        case 3:
+            cout << "Gracias por jugar" << endl;
+            HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+            color(hConsole, 9);
+            cout << " Este juego fue realizado para el curso Introduccion a los algoritmos : " << endl;
+       
+            cout << "@FlorContreras"<<endl;
+            cout << "@LuisAguilar"<<endl;
+            cout << "@LuisBecerra"<<endl;
+            break;
+       
+
+        }
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 7);
+
+    } while (opcion != 3);
+
+    return 0;
+}
+
+int obtenerOpcionMenu() {
+    int opcion;
+    do
+    {
+        cout << "Seleccione una opcion" << endl;
+        cout << "1. Instrucciones" << endl;
+        cout << "2. iniciar juego" << endl;
+        cout << "3. salir" << endl;
+        cout << "Opcion: ";
+        cin >> opcion;
+
+        if (opcion < 1 || opcion>3) {
+            cout << "Opcion invalida, seleccionar una opcion entre 1 y 3." << endl;
+        }
+
+    } while (opcion < 1 || opcion>3);
+
+    return opcion;
+}
+
+int generarCartaAleatoria(int minValorCarta, int maxValorCarta) {
+    return minValorCarta + rand() % (maxValorCarta + 1 - minValorCarta);
+}
+
+void imprimirInstrucciones() {
+    cout << "Instrucciones" << endl;
+    cout << "El objetivo del juego es sacar cartas hasta que su suma sea 21" << endl;
+    cout << "El juego empieza repartiendo a cada jugador una carta" << endl;
+    cout << "Si el jugador desea otra carta, la puede pedir y se sumaran los valores de las cartas" << endl;
+    cout << "Si el valor acumulado sobrepasa ventiuno, automáticamente es turno del jugador 2" << endl;
+    cout << "Las cartas 11, 12, 13 tienen el mismo valor: 10, el resto su valor original" << endl;
+    cout << "excepo del AS que vale 1 y 11 siendo el jugador que decide cual valor le conviene" << endl;
+    cout << "El ganador se da cuando un jugador tiene mas veces el 21 o un numero aproximado" << endl;
+    _getch();
+}
+void imprimirCarta(int x, int y, int carta, int palo)
+{
+    if (carta == 1)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << "A"; for (int i = 1; i <= 11; i++) cout << (char)196; cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)palo; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; for (int i = 1; i <= 11; i++) cout << (char)196; cout << "A";
+    }
+    if (carta == 2)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << carta; for (int i = 1; i <= 5; i++)cout << (char)196; cout << (char)palo; for (int i = 1; i <= 5; i++)cout << (char)196; cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; for (int i = 1; i <= 5; i++)cout << (char)196; cout << (char)palo; for (int i = 1; i <= 5; i++)cout << (char)196; cout << carta;
+    }
+    if (carta == 3)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << carta; for (int i = 1; i <= 5; i++)cout << (char)196; cout << (char)palo; for (int i = 1; i <= 5; i++)cout << (char)196; cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)palo; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; for (int i = 1; i <= 5; i++)cout << (char)196; cout << (char)palo; for (int i = 1; i <= 5; i++)cout << (char)196; cout << carta;
+    }
+    if (carta == 4)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << carta; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo;   cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo; cout << carta;
+    }
+    if (carta == 5)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << carta; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo;   cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)palo; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo; cout << carta;
+    }
+    if (carta == 6)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << carta; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo;   cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; cout << (char)palo; for (int i = 1; i <= 9; i++) cout << " "; cout << (char)palo;  cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo; cout << carta;
+    }
+    if (carta == 7)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << carta; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo;   cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)palo; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; cout << (char)palo; for (int i = 1; i <= 9; i++) cout << " "; cout << (char)palo;  cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo; cout << carta;
+    }
+    if (carta == 8)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << carta; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo;   cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)palo; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; cout << (char)palo; for (int i = 1; i <= 9; i++) cout << " "; cout << (char)palo;  cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)palo; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo; cout << carta;
+    }
+    if (carta == 9)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << carta; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo;   cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; cout << (char)palo; for (int i = 1; i <= 9; i++) cout << " "; cout << (char)palo;   cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)palo; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; cout << (char)palo; for (int i = 1; i <= 9; i++) cout << " "; cout << (char)palo;   cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo; cout << carta;
+    }
+    if (carta == 10)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << carta; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo;   cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)palo; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; cout << (char)palo; for (int i = 1; i <= 9; i++) cout << " "; cout << (char)palo;   cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; cout << (char)palo; for (int i = 1; i <= 9; i++) cout << " "; cout << (char)palo;   cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)palo; for (int i = 1; i <= 5; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; cout << (char)palo; for (int i = 1; i <= 9; i++)cout << (char)196; cout << (char)palo; cout << carta;
+    }
+    if (carta == 11)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << "J"; for (int i = 1; i <= 11; i++) cout << (char)196; cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)178; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)176; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)177; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)178;  cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)176; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)177; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)178; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; for (int i = 1; i <= 11; i++) cout << (char)196; cout << "J";
+    }
+    if (carta == 12)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << "Q"; for (int i = 1; i <= 11; i++) cout << (char)196; cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)176; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)177; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)178; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)178;  cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)176; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)177; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)178; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; for (int i = 1; i <= 11; i++) cout << (char)196; cout << "Q";
+    }
+    if (carta == 13)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        color(hConsole, 4);
+        Console::SetCursorPosition(x, y); cout << "K"; for (int i = 1; i <= 11; i++) cout << (char)196; cout << (char)191;
+        Console::SetCursorPosition(x, y + 1); cout << (char)palo; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)179;
+        Console::SetCursorPosition(x, y + 2); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)178; cout << (char)179;
+        Console::SetCursorPosition(x, y + 3); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)178; cout << (char)179;
+        Console::SetCursorPosition(x, y + 4); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)177; cout << (char)179;
+        Console::SetCursorPosition(x, y + 5); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)177;  cout << (char)179;
+        Console::SetCursorPosition(x, y + 6); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)176; cout << (char)179;
+        Console::SetCursorPosition(x, y + 7); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)176; cout << (char)179;
+        Console::SetCursorPosition(x, y + 8); cout << (char)179; for (int i = 1; i <= 11; i++) cout << (char)178; cout << (char)179;
+        Console::SetCursorPosition(x, y + 9); cout << (char)179; for (int i = 1; i <= 11; i++) cout << " "; cout << (char)palo;
+        Console::SetCursorPosition(x, y + 10); cout << (char)192; for (int i = 1; i <= 11; i++) cout << (char)196; cout << "K";
+
+        color(hConsole, 7);
+    }
+}
+
+int determinarGanador(int sumaCartasJugadorUno, int sumaCartasJugadorDos) {
+
+    int ganador;
+
+    if (sumaCartasJugadorUno > sumaCartasJugadorDos) {
+        ganador = 1;
+    }
+    else if (sumaCartasJugadorUno < sumaCartasJugadorDos) {
+        ganador = 2;
+    }
+    else {
+        ganador = -1;
+    }
+    return ganador;
+}
+
+int leerNumeroPartidas() {
+
+    int numeroPartidas;
+    do
+    {
+        if (numeroPartidas < 4 || numeroPartidas >= 10)
+        {
+            cout << "Ingrese el numero de partidas ha jugar, entre 5 y 10" << endl;
+            cin >> numeroPartidas;
+        }
+        else
+        {
+            cout << "Ingrese un numero de partidas de acuerdo el rango asignado" << endl;
+        }
+
+    } while (numeroPartidas < 4 || numeroPartidas >= 10);
+
+    return numeroPartidas;
+}
+
+void simularJuego() {
+
+    int cartaJugUno, cartaJugDos;// 
+    int sumaCartasJugadorUno, sumaCartasJugadorDos;//
+    int paloAleatorio;//
+    int resultadoGanador;//
+    int ganadorEmpate;//
+    int puntajeJugadorUno = 0;//
+    int puntajeJugadorDos = 0;//
+    int partidasJugadas = 0;//
+    bool turnoJugadorUno, turnoJugadorDos;//
+    bool turnoJugadorAleatorio;
+    int eligirJugador;//
+    char repartirCarta;//
+    char turno;//
+    int numeroPartidas = leerNumeroPartidas();//
+
+    while (true) {
+
+        cout << "Elija el turno (S) o computadora elije el turno (N)" << endl;
+        cin >> turno;
+        turno = toupper(turno);
+
+        if (turno == 'S')
+        {
+            cout << "Elige que jugador empieza la partida (1, 2)" << endl;
+            cin >> eligirJugador;
+            //eligirJugador = toupper(eligirJugador);
+
+            if (eligirJugador == 1)
+            {
+                cout << endl;
+                cout << "Es turno del jugador 1" << endl;
+                cout << endl;
+
+                turnoJugadorUno = true;
+            }
+            else
+            {
+                cout << endl;
+                cout << "Es turno del jugador 2" << endl;
+                cout << endl;
+                turnoJugadorUno = false;
+            }
+        }
+        else
+        {
+            turnoJugadorAleatorio = rand() % (1 - 0 + 1) + 0;
+            if (turnoJugadorAleatorio == 1)
+            {
+                cout << endl;
+                cout << "Es turno del jugador 1" << endl;
+                cout << endl;
+
+                turnoJugadorUno = true;
+            }
+            else
+            {
+                cout << endl;
+                cout << "Es turno del jugador 2" << endl;
+                cout << endl;
+                turnoJugadorUno = false;
+            }
+        }
+        //
+        if (turnoJugadorUno) {
+
+            cout << endl;
+            cout << "Jugador 1: INICIA EL JUEGO:" << endl;
+            cout << endl;
+
+            cartaJugUno = generarCartaAleatoria(1, 13);
+            paloAleatorio = generarCartaAleatoria(3, 6);
+            cout << endl;
+
+            imprimirCarta(40, 10, cartaJugUno, paloAleatorio);//mejorar
+            cout << endl;
+
+            if (cartaJugUno == 1) {
+
+                int valor;
+                cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
+                cin >> valor;
+
+                sumaCartasJugadorUno = valor;
+                cout << "Puntaje del jugador 1: " << sumaCartasJugadorUno << endl;
+            }
+
+            else if (cartaJugUno >= 2 && cartaJugUno <= 10)
+            {
+                sumaCartasJugadorUno = cartaJugUno;
+                cout << "Puntaje del jugador 1: " << sumaCartasJugadorUno << endl;
+
+            }
+
+            else if (cartaJugUno >= 11 && cartaJugUno <= 13)
+            {
+                sumaCartasJugadorUno = 10;
+                cout << "Puntaje del jugador 1: " << sumaCartasJugadorUno << endl;
+            }
+
+            cout << "Desea que se le reparta otra carta?, si la respuesta es si ponga 'S' si es no, ponga 'N'" << endl;
+            cin >> repartirCarta;
+            repartirCarta = toupper(repartirCarta);
+
+            if (repartirCarta == 's')
+            {
+
+            }
+
+            cout << endl;
+            system("pause");
+            system("cls");
+        }
+        //
+        if (turnoJugadorDos) {
+
+            cout << endl;
+            cout << "Jugador 2: INICIA EL JUEGO:" << endl;
+            cout << endl;
+
+            cartaJugDos = generarCartaAleatoria(1, 13);
+            paloAleatorio = generarCartaAleatoria(3, 6);
+            cout << endl;
+
+            imprimirCarta(50, 10, cartaJugDos, paloAleatorio);//mejorar
+            cout << endl;
+
+            if (cartaJugDos == 1) {
+
+                int valor;
+                cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
+                cin >> valor;
+
+                sumaCartasJugadorDos = valor;
+                cout << "Puntaje del jugador dos: " << sumaCartasJugadorDos << endl;
+            }
+
+            else if (cartaJugDos >= 2 && cartaJugDos <= 10)
+            {
+                sumaCartasJugadorDos = cartaJugDos;
+                cout << "Puntaje del jugador dos: " << sumaCartasJugadorDos << endl;
+
+            }
+
+            else if (cartaJugDos >= 11 && cartaJugDos <= 13)
+            {
+                sumaCartasJugadorDos = 10;
+                cout << "Puntaje del jugador dos: " << sumaCartasJugadorDos << endl;
+            }
+
+            cout << endl;
+            system("pause");
+            system("cls");
+        }
+
+        /*          cout << "Desea que se le reparta otra carta?, si la respuesta es si ponga 'S' si es no, ponga 'N'" << endl;
+                  cin >> repartirCarta;
+                  repartirCarta = toupper(repartirCarta);*/
+
+                  /*         cout << endl;
+                           //system("pause");
+                           //system("cls");*/
+
+                           //    } while (repartirCarta != 'N');
+
+                           //    //
+                           //    resultadoGanador = determinarGanador(sumaCartasJugadorUno, sumaCartasJugadorDos);
+
+                           //    cout << "Nro de partida:" << partidasJugadas + 1 << endl;
+
+                           //    if (sumaCartasJugadorUno == 21 || sumaCartasJugadorUno > sumaCartasJugadorDos)
+                           //    {
+                           //        cout << "Suma de cartas de jugador uno:" << sumaCartasJugadorUno << endl;
+                           //        if (sumaCartasJugadorUno > sumaCartasJugadorDos)
+                           //        {
+                           //            cout << "Jugador uno ha ganado esta ronda" << endl;
+                           //        }
+
+                           //    }
+
+                           //    if (sumaCartasJugadorDos == 21 || sumaCartasJugadorDos > sumaCartasJugadorUno)
+                           //    {
+                           //        cout << "Suma de cartas de jugador uno:" << sumaCartasJugadorDos << endl;
+
+                           //        if (sumaCartasJugadorDos > sumaCartasJugadorUno)
+                           //        {
+                           //            cout << "Jugador Dos ha ganado esta ronda" << endl;
+                           //        }
+
+                           //    }
+                           //    //
+
+
+                           //    //
+                           //    if (resultadoGanador == 1) {
+                           //        cout << "Jugador 1 gana la partida" << endl;
+                           //        puntajeJugadorUno += 100;
+                           //    }
+                           //    else if (resultadoGanador == 2) {
+                           //        cout << "Jugador 2 gana la partida" << endl;
+                           //        puntajeJugadorDos += 100;
+                           //    }
+                           //    else {
+                           //        cout << "Empate en esta partidad. Se decide al azar el ganador " << endl;
+                           //        ganadorEmpate = generarCartaAleatoria(1, 2);
+                           //        if (ganadorEmpate == 1) {
+                           //            cout << "Jugador 1 gana la partida" << endl;
+                           //            puntajeJugadorUno += 50;
+                           //        }
+                           //        else if (ganadorEmpate == 2) {
+                           //            cout << "Jugador 2 gana la partida" << endl;
+                           //            puntajeJugadorDos += 50;
+                           //        }
+                           //    }
+
+                           //    partidasJugadas++;
+                           //    //
+
+                           //}//Fin del while
+
+                           /*cout << "Puntaje final" << endl;
+                           cout << "Jugador uno: " << puntajeJugadorUno << endl;
+                           cout << "Jugador dos: " << puntajeJugadorDos << endl;
+
+
+                           if (puntajeJugadorUno > puntajeJugadorDos) {
+                               cout << "El jugador uno ha ganado el juego" << endl;
+                           }
+                           else if (puntajeJugadorUno < puntajeJugadorDos) {
+                               cout << "El jugador dos ha ganado el juego" << endl;
+                           }
+                           else {
+                               cout << "Empate, no hay un ganador claro" << endl;*/
+    }
+
+}//Fin del simular juego
+
+
+//HACER CREDITOS MENCIONANDO EL NOMBRE DE LOS INTEGRANTES Y BLA BLA BLA
