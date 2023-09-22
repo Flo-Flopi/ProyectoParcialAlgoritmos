@@ -307,7 +307,7 @@ int leerNumeroPartidas() {
 
 void simularJuego() {
 
-    int cartasJugadores;//
+    int cartaJugUno, cartaJugDos;// 
     int sumaCartasJugadorUno, sumaCartasJugadorDos;//
     int paloAleatorio;//
     int resultadoGanador;//
@@ -316,163 +316,254 @@ void simularJuego() {
     int puntajeJugadorDos = 0;//
     int partidasJugadas = 0;//
     bool turnoJugadorUno, turnoJugadorDos;//
+    bool turnoJugadorAleatorio;
     int eligirJugador;//
     char repartirCarta;//
     char turno;//
     int numeroPartidas = leerNumeroPartidas();//
 
-    while (partidasJugadas < numeroPartidas) {
+    while (true) {
 
         cout << "Desea elegir quien empieza el turno, si la respuesta es si escribe 'S', en su defecto 'N' si quieres que la computadora elija el turno)" << endl;
         cin >> turno;
+        turno = toupper(turno);
 
         if (turno == 'S')
         {
             cout << "Elige que jugador empieza la partida (1, 2)" << endl;
             cin >> eligirJugador;
-            eligirJugador = toupper(eligirJugador); 
+            //eligirJugador = toupper(eligirJugador);
 
             if (eligirJugador == 1)
             {
+                cout << endl;
+                cout << "Es turno del jugador 1" << endl;
+                cout << endl;
+
                 turnoJugadorUno = true;
             }
             else
             {
+                cout << endl;
+                cout << "Es turno del jugador 2" << endl;
+                cout << endl;
                 turnoJugadorUno = false;
             }
         }
         else
         {
-            turnoJugadorUno = rand() % (1 - 0 + 1) + 0;
-        }
-        
-        do
-        {
-            cartasJugadores = generarCartaAleatoria(1, 13);
-
-            paloAleatorio = generarCartaAleatoria(3, 6);
-
-            cout << endl;
-            imprimirCarta(10, 10, cartasJugadores, paloAleatorio);//mejorar
-            cout << endl;
-
-            if (cartasJugadores == 1) {
-                int valor;
-                cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
-                cin >> valor;
-
-                if (turnoJugadorUno == true)
-                {
-                    sumaCartasJugadorUno += valor;
-                }
-                else
-                {
-                    sumaCartasJugadorDos += valor;
-                }
-            }
-            
-            else if (cartasJugadores >= 2 && cartasJugadores <= 10)
+            turnoJugadorAleatorio = rand() % (1 - 0 + 1) + 0;
+            if (turnoJugadorAleatorio == 1)
             {
-                if (turnoJugadorUno == true)
-                {
-                    sumaCartasJugadorUno += cartasJugadores;
-                }
-                else
-                {
-                    sumaCartasJugadorDos += cartasJugadores;
-                }
-            }
+                cout << endl;
+                cout << "Es turno del jugador 1" << endl;
+                cout << endl;
 
-            else if (cartasJugadores >= 11 && cartasJugadores <= 13)
+                turnoJugadorUno = true;
+            }
+            else
             {
-                if (turnoJugadorUno == true)
-                {
-                    sumaCartasJugadorUno += 10;
-                }
-                else
-                {
-                    sumaCartasJugadorDos += 10;
-                }
+                cout << endl;
+                cout << "Es turno del jugador 2" << endl;
+                cout << endl;
+                turnoJugadorUno = false;
             }
+        }
 
-            cout << "Desea que se le reparta otra carta?, si la respuesta es si ponga 'S' si es no, ponga 'N'" << endl;
-            cin >> repartirCarta;
-            repartirCarta = toupper(repartirCarta);
-            
-            cout << endl;
-            system("pause");
-            system("cls");
 
-        } while (repartirCarta != 'N');
+        if (turnoJugadorUno) {
 
-        //
-        resultadoGanador = determinarGanador(sumaCartasJugadorUno, sumaCartasJugadorDos);
-       
-        cout << "Nro de partida:" << partidasJugadas + 1 << endl;
+            cout << "Jugador 1: INICIA EL JUEGO:" << endl;
 
-        if (sumaCartasJugadorUno == 21 || sumaCartasJugadorUno > sumaCartasJugadorDos)
-        {
-            cout << "Suma de cartas de jugador uno:" << sumaCartasJugadorUno << endl;
-            if (sumaCartasJugadorUno > sumaCartasJugadorDos)
+            do
             {
-                cout << "Jugador uno ha ganado esta ronda" << endl;
-            }
+                cartaJugUno = generarCartaAleatoria(1, 13);
 
+                paloAleatorio = generarCartaAleatoria(3, 6);
+
+                cout << endl;
+                imprimirCarta(10, 10, cartaJugUno, paloAleatorio);//mejorar
+                cout << endl;
+
+                if (cartaJugUno == 1) {
+                    int valor;
+                    cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
+                    cin >> valor;
+
+                    if (turnoJugadorUno == true)
+                    {
+                        sumaCartasJugadorUno += valor;
+                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
+                    }
+                    else
+                    {
+                        sumaCartasJugadorDos += valor;
+                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
+                    }
+                }
+
+                else if (cartaJugUno >= 2 && cartaJugUno <= 10)
+                {
+                    if (turnoJugadorUno == true)
+                    {
+                        sumaCartasJugadorUno += cartaJugUno;
+                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
+
+                    }
+                    else
+                    {
+                        sumaCartasJugadorDos += cartaJugUno;
+                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
+
+                    }
+                }
+
+                else if (cartaJugUno >= 11 && cartaJugUno <= 13)
+                {
+                    if (turnoJugadorUno == true)
+                    {
+                        sumaCartasJugadorUno += 10;
+                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
+
+                    }
+                    else
+                    {
+                        sumaCartasJugadorDos += 10;
+                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
+
+                    }
+                }
+
+                cout << "Deseas continuar con la partidad" << endl;
+            } while (repartirCarta != 'N');
         }
+            //do
+            //{
+            //    cartasJugadores = generarCartaAleatoria(1, 13);
 
-        if (sumaCartasJugadorDos == 21 || sumaCartasJugadorDos > sumaCartasJugadorUno)
-        {
-            cout << "Suma de cartas de jugador uno:" << sumaCartasJugadorDos << endl;
+            //    paloAleatorio = generarCartaAleatoria(3, 6);
 
-            if (sumaCartasJugadorDos > sumaCartasJugadorUno)
-            {
-                cout << "Jugador Dos ha ganado esta ronda" << endl;
-            }
+            //    cout << endl;
+            //    imprimirCarta(10, 10, cartasJugadores, paloAleatorio);//mejorar
+            //    cout << endl;
 
-        }
-        //
-        
+            //    if (cartasJugadores == 1) {
+            //        int valor;
+            //        cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
+            //        cin >> valor;
 
-        //
-        if (resultadoGanador == 1) {
-            cout << "Jugador 1 gana la partida" << endl;
-            puntajeJugadorUno += 100;
-        }
-        else if (resultadoGanador == 2) {
-            cout << "Jugador 2 gana la partida" << endl;
-            puntajeJugadorDos += 100;
-        }
-        else {
-            cout << "Empate en esta partidad. Se decide al azar el ganador " << endl;
-            ganadorEmpate = generarCartaAleatoria(1, 2);
-            if (ganadorEmpate == 1) {
-                cout << "Jugador 1 gana la partida" << endl;
-                puntajeJugadorUno += 50;
-            }
-            else if (ganadorEmpate == 2) {
-                cout << "Jugador 2 gana la partida" << endl;
-                puntajeJugadorDos += 50;
-            }
-        }
+            //        if (turnoJugadorUno == true)
+            //        {
+            //            sumaCartasJugadorUno += valor;
+            //        }
+            //        else
+            //        {
+            //            sumaCartasJugadorDos += valor;
+            //        }
+            //    }
 
-        partidasJugadas++;
-        //
+            //    else if (cartasJugadores >= 2 && cartasJugadores <= 10)
+            //    {
+            //        if (turnoJugadorUno == true)
+            //        {
+            //            sumaCartasJugadorUno += cartasJugadores;
+            //        }
+            //        else
+            //        {
+            //            sumaCartasJugadorDos += cartasJugadores;
+            //        }
+            //    }
 
-    }//Fin del while
+            //    else if (cartasJugadores >= 11 && cartasJugadores <= 13)
+            //    {
+            //        if (turnoJugadorUno == true)
+            //        {
+            //            sumaCartasJugadorUno += 10;
+            //        }
+            //        else
+            //        {
+            //            sumaCartasJugadorDos += 10;
+            //        }
+            //    }
 
-    cout << "Puntaje final" << endl;
-    cout << "Jugador uno: " << puntajeJugadorUno << endl;
-    cout << "Jugador dos: " << puntajeJugadorDos << endl;
+        //        cout << "Desea que se le reparta otra carta?, si la respuesta es si ponga 'S' si es no, ponga 'N'" << endl;
+        //        cin >> repartirCarta;
+        //        repartirCarta = toupper(repartirCarta);
+
+        //        cout << endl;
+        //        system("pause");
+        //        system("cls");
+
+        //    } while (repartirCarta != 'N');
+
+        //    //
+        //    resultadoGanador = determinarGanador(sumaCartasJugadorUno, sumaCartasJugadorDos);
+
+        //    cout << "Nro de partida:" << partidasJugadas + 1 << endl;
+
+        //    if (sumaCartasJugadorUno == 21 || sumaCartasJugadorUno > sumaCartasJugadorDos)
+        //    {
+        //        cout << "Suma de cartas de jugador uno:" << sumaCartasJugadorUno << endl;
+        //        if (sumaCartasJugadorUno > sumaCartasJugadorDos)
+        //        {
+        //            cout << "Jugador uno ha ganado esta ronda" << endl;
+        //        }
+
+        //    }
+
+        //    if (sumaCartasJugadorDos == 21 || sumaCartasJugadorDos > sumaCartasJugadorUno)
+        //    {
+        //        cout << "Suma de cartas de jugador uno:" << sumaCartasJugadorDos << endl;
+
+        //        if (sumaCartasJugadorDos > sumaCartasJugadorUno)
+        //        {
+        //            cout << "Jugador Dos ha ganado esta ronda" << endl;
+        //        }
+
+        //    }
+        //    //
 
 
-    if (puntajeJugadorUno > puntajeJugadorDos) {
-        cout << "El jugador uno ha ganado el juego" << endl;
-    }
-    else if (puntajeJugadorUno < puntajeJugadorDos) {
-        cout << "El jugador dos ha ganado el juego" << endl;
-    }
-    else {
-        cout << "Empate, no hay un ganador claro" << endl;
+        //    //
+        //    if (resultadoGanador == 1) {
+        //        cout << "Jugador 1 gana la partida" << endl;
+        //        puntajeJugadorUno += 100;
+        //    }
+        //    else if (resultadoGanador == 2) {
+        //        cout << "Jugador 2 gana la partida" << endl;
+        //        puntajeJugadorDos += 100;
+        //    }
+        //    else {
+        //        cout << "Empate en esta partidad. Se decide al azar el ganador " << endl;
+        //        ganadorEmpate = generarCartaAleatoria(1, 2);
+        //        if (ganadorEmpate == 1) {
+        //            cout << "Jugador 1 gana la partida" << endl;
+        //            puntajeJugadorUno += 50;
+        //        }
+        //        else if (ganadorEmpate == 2) {
+        //            cout << "Jugador 2 gana la partida" << endl;
+        //            puntajeJugadorDos += 50;
+        //        }
+        //    }
+
+        //    partidasJugadas++;
+        //    //
+
+        //}//Fin del while
+
+        //cout << "Puntaje final" << endl;
+        //cout << "Jugador uno: " << puntajeJugadorUno << endl;
+        //cout << "Jugador dos: " << puntajeJugadorDos << endl;
+
+
+        //if (puntajeJugadorUno > puntajeJugadorDos) {
+        //    cout << "El jugador uno ha ganado el juego" << endl;
+        //}
+        //else if (puntajeJugadorUno < puntajeJugadorDos) {
+        //    cout << "El jugador dos ha ganado el juego" << endl;
+        //}
+        //else {
+        //    cout << "Empate, no hay un ganador claro" << endl;
     }
 
 }//Fin del simular juego
