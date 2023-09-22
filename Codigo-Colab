@@ -324,7 +324,7 @@ void simularJuego() {
 
     while (true) {
 
-        cout << "Desea elegir quien empieza el turno, si la respuesta es si escribe 'S', en su defecto 'N' si quieres que la computadora elija el turno)" << endl;
+        cout << "Elija el turno (S) o computadora elije el turno (N)" << endl;
         cin >> turno;
         turno = toupper(turno);
 
@@ -369,130 +369,105 @@ void simularJuego() {
                 turnoJugadorUno = false;
             }
         }
-
-
+        //
         if (turnoJugadorUno) {
 
+            cout << endl;
             cout << "Jugador 1: INICIA EL JUEGO:" << endl;
+            cout << endl;
 
-            do
+            cartaJugUno = generarCartaAleatoria(1, 13);
+            paloAleatorio = generarCartaAleatoria(3, 6);
+            cout << endl;
+
+            imprimirCarta(40, 10, cartaJugUno, paloAleatorio);//mejorar
+            cout << endl;
+
+            if (cartaJugUno == 1) {
+
+                int valor;
+                cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
+                cin >> valor;
+
+                sumaCartasJugadorUno = valor; 
+                cout << "Puntaje del jugador 1: " << sumaCartasJugadorUno << endl;
+            }
+
+            else if (cartaJugUno >= 2 && cartaJugUno <= 10)
             {
-                cartaJugUno = generarCartaAleatoria(1, 13);
+                sumaCartasJugadorUno = cartaJugUno;  
+                cout << "Puntaje del jugador 1: " << sumaCartasJugadorUno << endl; 
+                
+            }
 
-                paloAleatorio = generarCartaAleatoria(3, 6);
+            else if (cartaJugUno >= 11 && cartaJugUno <= 13)
+            {
+                sumaCartasJugadorUno = 10; 
+                cout << "Puntaje del jugador 1: " << sumaCartasJugadorUno << endl; 
+            }
 
-                cout << endl;
-                imprimirCarta(10, 10, cartaJugUno, paloAleatorio);//mejorar
-                cout << endl;
+            cout << "Desea que se le reparta otra carta?, si la respuesta es si ponga 'S' si es no, ponga 'N'" << endl;
+            cin >> repartirCarta;
+            repartirCarta = toupper(repartirCarta);
 
-                if (cartaJugUno == 1) {
-                    int valor;
-                    cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
-                    cin >> valor;
+            if (repartirCarta == 's')
+            {
 
-                    if (turnoJugadorUno == true)
-                    {
-                        sumaCartasJugadorUno += valor;
-                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
-                    }
-                    else
-                    {
-                        sumaCartasJugadorDos += valor;
-                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
-                    }
-                }
+            }
 
-                else if (cartaJugUno >= 2 && cartaJugUno <= 10)
-                {
-                    if (turnoJugadorUno == true)
-                    {
-                        sumaCartasJugadorUno += cartaJugUno;
-                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
-
-                    }
-                    else
-                    {
-                        sumaCartasJugadorDos += cartaJugUno;
-                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
-
-                    }
-                }
-
-                else if (cartaJugUno >= 11 && cartaJugUno <= 13)
-                {
-                    if (turnoJugadorUno == true)
-                    {
-                        sumaCartasJugadorUno += 10;
-                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
-
-                    }
-                    else
-                    {
-                        sumaCartasJugadorDos += 10;
-                        cout << "Puntaje acumulado: " << sumaCartasJugadorUno << endl;
-
-                    }
-                }
-
-                cout << "Deseas continuar con la partidad" << endl;
-            } while (repartirCarta != 'N');
+            cout << endl;
+            system("pause");
+            system("cls");
         }
-            //do
-            //{
-            //    cartasJugadores = generarCartaAleatoria(1, 13);
+        //
+        if (turnoJugadorDos) {
 
-            //    paloAleatorio = generarCartaAleatoria(3, 6);
+            cout << endl;
+            cout << "Jugador 2: INICIA EL JUEGO:" << endl;
+            cout << endl;
 
-            //    cout << endl;
-            //    imprimirCarta(10, 10, cartasJugadores, paloAleatorio);//mejorar
-            //    cout << endl;
+            cartaJugDos = generarCartaAleatoria(1, 13);
+            paloAleatorio = generarCartaAleatoria(3, 6);
+            cout << endl;
 
-            //    if (cartasJugadores == 1) {
-            //        int valor;
-            //        cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
-            //        cin >> valor;
+            imprimirCarta(50, 10, cartaJugDos, paloAleatorio);//mejorar
+            cout << endl;
 
-            //        if (turnoJugadorUno == true)
-            //        {
-            //            sumaCartasJugadorUno += valor;
-            //        }
-            //        else
-            //        {
-            //            sumaCartasJugadorDos += valor;
-            //        }
-            //    }
+            if (cartaJugDos == 1) {
 
-            //    else if (cartasJugadores >= 2 && cartasJugadores <= 10)
-            //    {
-            //        if (turnoJugadorUno == true)
-            //        {
-            //            sumaCartasJugadorUno += cartasJugadores;
-            //        }
-            //        else
-            //        {
-            //            sumaCartasJugadorDos += cartasJugadores;
-            //        }
-            //    }
+                int valor;
+                cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
+                cin >> valor;
 
-            //    else if (cartasJugadores >= 11 && cartasJugadores <= 13)
-            //    {
-            //        if (turnoJugadorUno == true)
-            //        {
-            //            sumaCartasJugadorUno += 10;
-            //        }
-            //        else
-            //        {
-            //            sumaCartasJugadorDos += 10;
-            //        }
-            //    }
+                sumaCartasJugadorDos = valor;
+                cout << "Puntaje del jugador dos: " << sumaCartasJugadorDos << endl;
+            }
 
-        //        cout << "Desea que se le reparta otra carta?, si la respuesta es si ponga 'S' si es no, ponga 'N'" << endl;
-        //        cin >> repartirCarta;
-        //        repartirCarta = toupper(repartirCarta);
+            else if (cartaJugDos >= 2 && cartaJugDos <= 10)
+            {
+                sumaCartasJugadorDos = cartaJugDos;
+                cout << "Puntaje del jugador dos: " << sumaCartasJugadorDos << endl;
 
-        //        cout << endl;
-        //        system("pause");
-        //        system("cls");
+            }
+
+            else if (cartaJugDos >= 11 && cartaJugDos <= 13)
+            {
+                sumaCartasJugadorDos = 10;
+                cout << "Puntaje del jugador dos: " << sumaCartasJugadorDos << endl;
+            }
+
+            cout << endl;
+            system("pause");
+            system("cls");
+        }
+    
+      /*          cout << "Desea que se le reparta otra carta?, si la respuesta es si ponga 'S' si es no, ponga 'N'" << endl;
+                cin >> repartirCarta;
+                repartirCarta = toupper(repartirCarta);*/
+
+       /*         cout << endl;
+                //system("pause");
+                //system("cls");*/
 
         //    } while (repartirCarta != 'N');
 
@@ -551,19 +526,19 @@ void simularJuego() {
 
         //}//Fin del while
 
-        //cout << "Puntaje final" << endl;
-        //cout << "Jugador uno: " << puntajeJugadorUno << endl;
-        //cout << "Jugador dos: " << puntajeJugadorDos << endl;
+        /*cout << "Puntaje final" << endl;
+        cout << "Jugador uno: " << puntajeJugadorUno << endl;
+        cout << "Jugador dos: " << puntajeJugadorDos << endl;
 
 
-        //if (puntajeJugadorUno > puntajeJugadorDos) {
-        //    cout << "El jugador uno ha ganado el juego" << endl;
-        //}
-        //else if (puntajeJugadorUno < puntajeJugadorDos) {
-        //    cout << "El jugador dos ha ganado el juego" << endl;
-        //}
-        //else {
-        //    cout << "Empate, no hay un ganador claro" << endl;
+        if (puntajeJugadorUno > puntajeJugadorDos) {
+            cout << "El jugador uno ha ganado el juego" << endl;
+        }
+        else if (puntajeJugadorUno < puntajeJugadorDos) {
+            cout << "El jugador dos ha ganado el juego" << endl;
+        }
+        else {
+            cout << "Empate, no hay un ganador claro" << endl;*/
     }
 
 }//Fin del simular juego
