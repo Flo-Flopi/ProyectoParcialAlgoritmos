@@ -19,21 +19,20 @@ int generarCartaAleatoria(int minValor, int maxValor);//
 void imprimirInstrucciones();//
 void imprimirCarta(int x, int y, int carta, int palo);//
 int determinarGanador(int sumaCartasJugadorUno, int sumaCartasJugadorDos);
+/// Inicio juego
+void iniciarJuego();
 void simularJuego();
 
 
 int main()
 {
     srand(time(NULL));
+    iniciarJuego();
+    system("cls");
+
     int opcion;
-    /*Beep(1568, 200);
-    Beep(1568, 200);
-    Beep(1568, 200);
-    Beep(1245, 1000);*/
-    Beep(1397, 200);
-    Beep(1397, 200);
-    Beep(1397, 200);
-    Beep(1175, 1000);
+   
+   
     do
     {
         opcion = obtenerOpcionMenu();
@@ -72,6 +71,36 @@ int main()
     } while (opcion != 3);
 
     return 0;
+}
+void iniciarJuego() {
+    Beep(1568, 200);
+    Beep(1568, 200);
+    Beep(1568, 200);
+    Beep(1245, 1000);
+   
+
+    int x = 20; int y = 20; int z = 50;
+
+    Console::ForegroundColor = ConsoleColor::White;
+    Console::SetCursorPosition(x + (z / 2) - 6, y - 3);
+    cout << "Cargando...";
+
+    Console::SetCursorPosition(x - 2, y);
+    cout << "[ ";
+    Console::SetCursorPosition(x + z, y);
+    cout << " ]";
+
+    Console::SetCursorPosition(x, y);
+    for (int i = 0; i < z; i++) {
+        Console::ForegroundColor = ConsoleColor::Green;
+        cout << char(186);
+        _sleep(40);
+    }
+    Console::ForegroundColor = ConsoleColor::White;
+    Console::SetCursorPosition(x + (z / 2) - 6, y + 3);
+    cout << " Completo!";
+
+    _sleep(800);
 }
 
 int obtenerOpcionMenu() {
