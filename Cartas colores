@@ -45,12 +45,12 @@ int main()
             HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
             color(hConsole, 9);
             cout << " Este juego fue realizado para el curso Introduccion a los algoritmos : " << endl;
-       
-            cout << "@FlorContreras"<<endl;
-            cout << "@LuisAguilar"<<endl;
-            cout << "@LuisBecerra"<<endl;
+
+            cout << "@FlorContreras" << endl;
+            cout << "@LuisAguilar" << endl;
+            cout << "@LuisBecerra" << endl;
             break;
-       
+
 
         }
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -425,7 +425,8 @@ void simularJuego() {
             cout << endl;
 
             if (cartaJugUno == 1) {
-
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                color(hConsole, 7);
                 int valor;
                 cout << "Ingrese el valor que quieres que tome el AS (1 o 11): ";
                 cin >> valor;
@@ -436,6 +437,8 @@ void simularJuego() {
 
             else if (cartaJugUno >= 2 && cartaJugUno <= 10)
             {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                color(hConsole, 7);
                 sumaCartasJugadorUno = cartaJugUno;
                 cout << "Puntaje del jugador 1: " << sumaCartasJugadorUno << endl;
 
@@ -443,6 +446,8 @@ void simularJuego() {
 
             else if (cartaJugUno >= 11 && cartaJugUno <= 13)
             {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                color(hConsole, 7);
                 sumaCartasJugadorUno = 10;
                 cout << "Puntaje del jugador 1: " << sumaCartasJugadorUno << endl;
             }
@@ -481,11 +486,15 @@ void simularJuego() {
                 cin >> valor;
 
                 sumaCartasJugadorDos = valor;
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                color(hConsole, 7);
                 cout << "Puntaje del jugador dos: " << sumaCartasJugadorDos << endl;
             }
 
             else if (cartaJugDos >= 2 && cartaJugDos <= 10)
             {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                color(hConsole, 7);
                 sumaCartasJugadorDos = cartaJugDos;
                 cout << "Puntaje del jugador dos: " << sumaCartasJugadorDos << endl;
 
@@ -493,6 +502,8 @@ void simularJuego() {
 
             else if (cartaJugDos >= 11 && cartaJugDos <= 13)
             {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                color(hConsole, 7);
                 sumaCartasJugadorDos = 10;
                 cout << "Puntaje del jugador dos: " << sumaCartasJugadorDos << endl;
             }
