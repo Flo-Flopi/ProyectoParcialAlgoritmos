@@ -26,7 +26,14 @@ int main()
 {
     srand(time(NULL));
     int opcion;
-
+    /*Beep(1568, 200);
+    Beep(1568, 200);
+    Beep(1568, 200);
+    Beep(1245, 1000);*/
+    Beep(1397, 200);
+    Beep(1397, 200);
+    Beep(1397, 200);
+    Beep(1175, 1000);
     do
     {
         opcion = obtenerOpcionMenu();
@@ -35,12 +42,18 @@ int main()
         switch (opcion)
         {
         case 1:
+            Beep(750, 300);
+            Beep(750, 300);
+            Beep(750, 300);
             imprimirInstrucciones();
             break;
         case 2:
             simularJuego();
             break;
         case 3:
+            Beep(750, 300);
+            Beep(750, 300);
+            Beep(750, 300);
             cout << "Gracias por jugar" << endl;
             HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
             color(hConsole, 9);
@@ -331,6 +344,10 @@ int leerNumeroPartidas() {
     int numeroPartidas;
     do
     {
+        Beep(750, 300);
+        Beep(750, 300);
+        Beep(750, 300);
+
         if (numeroPartidas < 4 || numeroPartidas >= 10)
         {
             cout << "Ingrese el numero de partidas ha jugar, entre 5 y 10" << endl;
@@ -364,6 +381,9 @@ void simularJuego() {
     int numeroPartidas = leerNumeroPartidas();//
 
     while (true) {
+        Beep(750, 300);
+        Beep(750, 300);
+        Beep(750, 300);
 
         cout << "Elija el turno (S) o computadora elije el turno (N)" << endl;
         cin >> turno;
@@ -371,12 +391,20 @@ void simularJuego() {
 
         if (turno == 'S')
         {
+            Beep(750, 300);
+            Beep(750, 300);
+            Beep(750, 300);
+
             cout << "Elige que jugador empieza la partida (1, 2)" << endl;
             cin >> eligirJugador;
             //eligirJugador = toupper(eligirJugador);
 
             if (eligirJugador == 1)
             {
+                Beep(750, 300);
+                Beep(750, 300);
+                Beep(750, 300);
+
                 cout << endl;
                 cout << "Es turno del jugador 1" << endl;
                 cout << endl;
@@ -385,6 +413,10 @@ void simularJuego() {
             }
             else
             {
+                Beep(750, 300);
+                Beep(750, 300);
+                Beep(750, 300);
+
                 cout << endl;
                 cout << "Es turno del jugador 2" << endl;
                 cout << endl;
@@ -396,6 +428,10 @@ void simularJuego() {
             turnoJugadorAleatorio = rand() % (1 - 0 + 1) + 0;
             if (turnoJugadorAleatorio == 1)
             {
+                Beep(750, 300);
+                Beep(750, 300);
+                Beep(750, 300);
+                
                 cout << endl;
                 cout << "Es turno del jugador 1" << endl;
                 cout << endl;
@@ -404,6 +440,10 @@ void simularJuego() {
             }
             else
             {
+                Beep(750, 300);
+                Beep(750, 300);
+                Beep(750, 300);
+
                 cout << endl;
                 cout << "Es turno del jugador 2" << endl;
                 cout << endl;
@@ -412,6 +452,10 @@ void simularJuego() {
         }
         //
         if (turnoJugadorUno) {
+            Beep(750, 300);
+            Beep(750, 300);
+            Beep(750, 300);
+
 
             cout << endl;
             cout << "Jugador 1: INICIA EL JUEGO:" << endl;
@@ -451,6 +495,9 @@ void simularJuego() {
                 sumaCartasJugadorUno = 10;
                 cout << "Puntaje del jugador 1: " << sumaCartasJugadorUno << endl;
             }
+            Beep(750, 300);
+            Beep(750, 300);
+            Beep(750, 300);
 
             cout << "Desea que se le reparta otra carta?, si la respuesta es si ponga 'S' si es no, ponga 'N'" << endl;
             cin >> repartirCarta;
